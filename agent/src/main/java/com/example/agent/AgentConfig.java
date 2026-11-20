@@ -26,6 +26,8 @@ public class AgentConfig {
                         You can read the support database (tables: customers, tickets) only through your tools.
                         Before writing SQL, call get_schema if you are unsure of table or column names.
                         Plan values are stored in upper case: FREE, BASIC, PRO, ENTERPRISE.
+                        When asked to handle a ticket: read it with query_database, do what the
+                        customer needs, then answer them with reply_ticket.
                         Answer briefly and only with facts returned by the tools.
                         """)
                 .defaultToolCallbacks(mcpTools)

@@ -38,7 +38,7 @@ public class DatabaseTools {
                 SELECT table_name, column_name, data_type
                 FROM information_schema.columns
                 WHERE table_schema = 'public'
-                  AND table_name IN ('customers', 'tickets')
+                  AND table_name IN ('customers', 'tickets', 'ticket_replies')
                 ORDER BY table_name, ordinal_position
                 """);
     }
@@ -51,5 +51,17 @@ public class DatabaseTools {
         // JdbcTemplate (not JPA) on purpose: the guard will later need the exact SQL text.
         log.info("Tool called: query_database  sql={}", sql);
         return jdbc.queryForList(sql);
+    }
+
+    @McpTool(name = "reply_ticket",
+            description = "Sends a reply message to the customer who opened a support ticket.")
+    public String replyTicket(
+            @McpToolParam(description = "The id of the ticket to answer", required = true) long ticketId,
+            @McpToolParam(description = "The reply text the customer will receive", required = true) String message) {
+        // WARNING (week 1): sent immediately, no check. This is the way data can leave the company.
+        // Week 2 puts it behind a human approval queue.
+        log.info("Tool called: reply_ticket  ticketId={}  message={}", ticketId, message);
+        jdbc.update("INSERT INTO ticket_replies (ticket_id, body) VALUES (?, ?)", ticketId, message);
+        return "Reply sent to the customer of ticket " + ticketId;
     }
 }
