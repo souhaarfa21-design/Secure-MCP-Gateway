@@ -74,6 +74,11 @@
 			<artifactId>datafaker</artifactId>
 			<version>${datafaker.version}</version>
 		</dependency>
+		<!-- Tracing: records every step (Micrometer) and sends it to Langfuse over OTLP -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-opentelemetry</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>

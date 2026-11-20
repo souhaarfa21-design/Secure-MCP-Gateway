@@ -3,6 +3,8 @@ package com.gatewayapp.demo.tools;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ai.mcp.annotation.McpTool;
 import org.springframework.ai.mcp.annotation.McpToolParam;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,6 +21,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class DatabaseTools {
 
+    private static final Logger log = LoggerFactory.getLogger(DatabaseTools.class);
+
     private final JdbcTemplate jdbc;
 
     public DatabaseTools(JdbcTemplate jdbc) {
@@ -29,6 +33,7 @@ public class DatabaseTools {
             description = "Lists the tables of the support database and their columns. "
                     + "Call this first to know which tables and columns exist before writing SQL.")
     public List<Map<String, Object>> getSchema() {
+        log.info("Tool called: get_schema");
         return jdbc.queryForList("""
                 SELECT table_name, column_name, data_type
                 FROM information_schema.columns
@@ -44,6 +49,7 @@ public class DatabaseTools {
     public List<Map<String, Object>> queryDatabase(
             @McpToolParam(description = "A single PostgreSQL SELECT statement", required = true) String sql) {
         // JdbcTemplate (not JPA) on purpose: the guard will later need the exact SQL text.
+        log.info("Tool called: query_database  sql={}", sql);
         return jdbc.queryForList(sql);
     }
 }
