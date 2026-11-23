@@ -6,15 +6,25 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 /**
- * TEMPORARY (week 1): lets every request through so the MCP Inspector and the agent
- * can reach /mcp without a token. Week 2 (Person B) replaces this with JWT checks
- * via the OAuth2 resource server.
+ * Who may call what on the gateway.
+ *
+ *  - POST /token          open to everyone: it's where you log in to GET a token
+ *  - /actuator/health     open: "is the gateway up?"
+ *  - everything else      (including /mcp, the tools) needs a valid JWT:
+ *                         Authorization: Bearer eyJ...
+ *
+ * The gateway is an OAuth2 "resource server": it doesn't log people in with a session,
+ * it only checks the token that comes with each request (signature, expiry, issuer).
+ * Missing, expired or tampered token → 401 Unauthorized.
  */
 @Configuration
 public class SecurityConfig {
@@ -23,9 +33,28 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors(Customizer.withDefaults())       // uses corsConfigurationSource() below
-                .csrf(csrf -> csrf.disable())          // MCP clients send POSTs without a CSRF token
-                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
+                .csrf(csrf -> csrf.disable())          // no cookies/sessions → CSRF can't happen
+                .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/token", "/actuator/health").permitAll()
+                        .anyRequest().authenticated())
+                .oauth2ResourceServer(oauth2 -> oauth2
+                        .jwt(jwt -> jwt.jwtAuthenticationConverter(roleFromToken())));
         return http.build();
+    }
+
+    /**
+     * Our tokens carry the role in a "role" claim (e.g. "SUPPORT").
+     * Spring Security turns it into the authority "ROLE_SUPPORT", so later we can write
+     * rules like hasRole("ADMIN") (Wednesday's role policy).
+     */
+    private static JwtAuthenticationConverter roleFromToken() {
+        JwtGrantedAuthoritiesConverter roles = new JwtGrantedAuthoritiesConverter();
+        roles.setAuthoritiesClaimName("role");
+        roles.setAuthorityPrefix("ROLE_");
+        JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
+        converter.setJwtGrantedAuthoritiesConverter(roles);
+        return converter;
     }
 
     /**
