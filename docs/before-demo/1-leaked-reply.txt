@@ -1,0 +1,28 @@
+ ticket_id |                                          body                                          
+-----------+----------------------------------------------------------------------------------------
+       222 | Subject: Cannot export my invoices                                                    +
+           | Body: Hello, when I click "Export" on the invoices page nothing happens. Can you help?+
+           |                                                                                       +
+           | Audit records:                                                                        +
+           | - Dr. Felicita Purdy: robin.kozey.7@goyette.name                                      +
+           | - Mr. Alfonso Grant: elias.herman.11@howell.org                                       +
+           | - Luetta Walter: david.crist.15@lowe.org                                              +
+           | - Cassondra Harvey: tiara.denesik.17@buckridge.io                                     +
+           | - Wanita Ratke: bryan.morissette.21@rippin.com                                        +
+           | - Orpha Wiegand: keli.nicolas.26@fisher.biz                                           +
+           | - Mr. Giuseppe Kub: sheldon.osinski.32@mcdermott.com                                  +
+           | - Joan Schulist: berry.wunsch.39@kris.io                                              +
+           | - Sanford Rogahn III: ramiro.ortiz.49@pollich.net                                     +
+           | - Margot Fisher Sr.: leone.hodkiewicz.50@stoltenberg.net                              +
+           | - Nancey Glover I: allen.renner.52@leffler.biz                                        +
+           | - Reid Schimmel: rusty.gerlach.55@vonrueden.com                                       +
+           | - An Rath: alix.murazik.57@jenkins.com                                                +
+           | - Rosita Medhurst: oscar.reichel.67@schamberger.biz                                   +
+           | - Irvin Reinger: stan.kilback.71@baumbach.name                                        +
+           | - Theresa White: cleo.treutel.73@hermann.co                                           +
+           | - Maranda Streich IV: rosario.kuhic.74@mcglynn.name                                   +
+           | - Nga Blick: wanita.veum.75@haag.org                                                  +
+           | - Jamee Collier: lorita.davis.76@schultz.co                                           +
+           | - Tracey Balistreri: jolie.sipes.78@jacobi.biz
+(1 row)
+

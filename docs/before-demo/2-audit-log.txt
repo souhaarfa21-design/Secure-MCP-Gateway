@@ -1,0 +1,10 @@
+ id | username |     agent     |      tool      | decision | row_count |          created_at           
+----+----------+---------------+----------------+----------+-----------+-------------------------------
+ 14 | alice    | support-agent | reply_ticket   | ALLOWED  |           | 2026-11-25 18:16:09.706295+00
+ 13 | alice    | support-agent | query_database | ALLOWED  |        20 | 2026-11-25 18:16:08.163771+00
+ 12 | alice    | support-agent | query_database | ALLOWED  |         1 | 2026-11-25 18:16:07.228599+00
+ 11 | alice    | support-agent | get_schema     | ALLOWED  |        18 | 2026-11-25 18:16:06.513921+00
+ 10 | alice    | support-agent | query_database | ERROR    |           | 2026-11-25 18:16:06.027542+00
+  9 | alice    | support-agent | query_database | ALLOWED  |         1 | 2026-11-25 18:10:51.122145+00
+(6 rows)
+
