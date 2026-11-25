@@ -19,6 +19,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
  *
  *  - POST /token          open to everyone: it's where you log in to GET a token
  *  - /actuator/health     open: "is the gateway up?"
+ *  - /error               open: Spring's error page (so 400s are not hidden as 401s)
  *  - everything else      (including /mcp, the tools) needs a valid JWT:
  *                         Authorization: Bearer eyJ...
  *
@@ -36,7 +37,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())          // no cookies/sessions → CSRF can't happen
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/token", "/actuator/health").permitAll()
+                        // /error: where Spring Boot sends failed requests to build the error reply.
+                        // If it is locked, a 400 (bad input) on /token turns into a 401.
+                        .requestMatchers("/token", "/actuator/health", "/error").permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(roleFromToken())));

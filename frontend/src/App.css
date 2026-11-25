@@ -91,3 +91,19 @@ body { background: var(--paper); }
 @media (prefers-reduced-motion: reduce) {
   .dots i { animation: none; opacity: .6; }
 }
+/* Sign-in (week 2: tokens) */
+.bar-right { display: flex; align-items: center; gap: 14px; }
+.who { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; color: var(--muted); }
+.who strong { color: var(--text); }
+.who button { font: inherit; font-size: 13.5px; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: var(--text); cursor: pointer; }
+.who button:hover { border-color: var(--teal); }
+
+.login { max-width: 400px !important; margin: 8vh auto 0; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 26px; display: flex; flex-direction: column; gap: 14px; }
+.login h2 { margin: 0; font-size: 19px; }
+.login p { margin: 0; color: var(--muted); font-size: 14.5px; line-height: 1.5; }
+.login label { display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600; }
+.login input, .login select { font: inherit; font-weight: 400; font-size: 15px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--card); color: var(--text); }
+.login button { font: inherit; font-weight: 600; padding: 11px; border-radius: 10px; border: 0; background: var(--teal); color: #fff; cursor: pointer; }
+.login button:disabled { background: #a9b3ca; cursor: not-allowed; }
+.login .login-error { color: var(--red); background: var(--red-soft); border-radius: 8px; padding: 8px 12px; }
+.composer textarea:disabled { background: var(--paper); cursor: not-allowed; }
